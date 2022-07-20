@@ -28,7 +28,7 @@ function Home() {
         toast.error(response.data.message);
       } else {
         setloginStatus(response.data[0].username);
-        toast.success(response.data[0].username);
+        toast.success(response.data[0].username + " giriş yaptı.");
         setUser(true);
       }
     });
@@ -81,7 +81,6 @@ function Home() {
                 )}
                 <Toaster></Toaster>
               </div>
-              <h1>{loginStatus}</h1>
             </div>
           </form>
         </div>
