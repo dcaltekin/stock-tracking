@@ -35,6 +35,8 @@ function Profile() {
     }).then((response) => {
       if (response) {
         console.log(response);
+        setProduct_name("");
+        setStock("");
         setData((data) => [...data, { loginStatus, product_name, stock }]);
         toast.success(
           product_name + " isimli ürün " + stock + " adet eklendi."
@@ -73,6 +75,7 @@ function Profile() {
             <form onSubmit={handleSubmit}>
               <label className="text-xl ml-4  ">Ürün:</label>
               <input
+                value={product_name}
                 className=" ml-4  form-label block mb-2 text-gray-700 text-xl w-80 h-12"
                 type="text"
                 placeholder="Ürün adı giriniz..."
@@ -80,6 +83,7 @@ function Profile() {
               />
               <label className="text-xl ml-4 ">Adet:</label>
               <input
+                value={stock}
                 className="form-label ml-4 block mb-2 text-gray-700 text-xl w-80 h-12"
                 type="number"
                 placeholder="Ürün adedi giriniz..."
@@ -87,7 +91,7 @@ function Profile() {
               />
               <button
                 className="mx-4  w-80 disabled:opacity-50 disabled:-z-50 h-14  inline-block bg-green-500 text-white font-medium text-lg leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
-                //disabled={!product_name + !stock ? true : false}
+                disabled={!product_name + !stock ? true : false}
                 onClick={() => {
                   product();
                 }}
@@ -98,7 +102,7 @@ function Profile() {
             </form>
           </div>
 
-          <div className="bg-gray-200  w-10/12 sm:w-11/12 mx-auto mt-8">
+          <div className="bg-gray-200  w-10/12 sm:w-full mx-auto mt-8">
             <div className="overflow-x-auto border-x border-t">
               <table className="table-auto w-full text-center">
                 <thead className="border-b">
@@ -106,6 +110,7 @@ function Profile() {
                     <th className="p-4 text-2xl font-medium">Ekleyen</th>
                     <th className="p-4 text-2xl font-medium">Ürün Adı</th>
                     <th className="p-4 text-2xl font-medium">Stok Sayısı</th>
+                    <th className="p-4 text-2xl font-medium"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -114,6 +119,11 @@ function Profile() {
                       <td className="p-4">{product.to_added_by}</td>
                       <td className="p-4">{product.product_name}</td>
                       <td className="p-4">{product.stock}</td>
+                      <td>
+                        <button className="p-4 my-2 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                          X
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
