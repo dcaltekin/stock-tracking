@@ -35,21 +35,25 @@ function Profile() {
     }).then((response) => {
       if (response) {
         console.log(response);
+        setData((data) => [...data, { loginStatus, product_name, stock }]);
         toast.success(
           product_name + " isimli ürün " + stock + " adet eklendi."
         );
-        //setProduct_name("");
-        //setStock("");
       }
     });
   };
 
-  const productList = () => {
-    Axios.get("http://localhost:3001/product-list", {}).then((response) => {
-      console.log(response);
-      setData(response.data);
-    });
-  };
+  useEffect(() => {
+    const productList = async () => {
+      await Axios.get("http://localhost:3001/product-list", {}).then(
+        (response) => {
+          console.log(response);
+          setData(response.data);
+        }
+      );
+    };
+    productList();
+  }, []);
 
   return (
     <div>
@@ -83,17 +87,18 @@ function Profile() {
               />
               <button
                 className="mx-4  w-80 disabled:opacity-50 disabled:-z-50 h-14  inline-block bg-green-500 text-white font-medium text-lg leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
-                disabled={!product_name + !stock ? true : false}
-                onClick={product}
+                //disabled={!product_name + !stock ? true : false}
+                onClick={() => {
+                  product();
+                }}
               >
                 Ürün ekle
               </button>
               <Toaster />
             </form>
           </div>
-          <button onClick={productList}>DENEME LİSTE</button>
 
-          <div className="bg-gray-200  w-11/12 sm:w-11/12 mx-auto mt-8">
+          <div className="bg-gray-200  w-10/12 sm:w-11/12 mx-auto mt-8">
             <div className="overflow-x-auto border-x border-t">
               <table className="table-auto w-full text-center">
                 <thead className="border-b">
@@ -104,31 +109,13 @@ function Profile() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="p-4">Tahsin</td>
-                    <td className="p-4">Tişört</td>
-                    <td className="p-4">88</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="p-4">Doğukan</td>
-                    <td className="p-4">Mont</td>
-                    <td className="p-4">177</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="p-4">Doğukan</td>
-                    <td className="p-4">Mont</td>
-                    <td className="p-4">177</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="p-4">Doğukan</td>
-                    <td className="p-4">Mont</td>
-                    <td className="p-4">177</td>
-                  </tr>
-                  <tr className="border-b hover:bg-gray-50">
-                    <td className="p-4">Doğukan</td>
-                    <td className="p-4">Mont</td>
-                    <td className="p-4">177</td>
-                  </tr>
+                  {data.map((product, index) => (
+                    <tr key={index} className="border-b hover:bg-gray-50">
+                      <td className="p-4">{product.to_added_by}</td>
+                      <td className="p-4">{product.product_name}</td>
+                      <td className="p-4">{product.stock}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
