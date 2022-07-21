@@ -3,7 +3,7 @@ import React from "react";
 function Footer() {
   return (
     <div>
-      <footer className=" text-center text-white bg-gray-600 w-full bottom-0 mt-32 sm:mt-48 ">
+      <footer className=" text-center text-white bg-gray-700 w-full bottom-0 mb-0 mt-36 sm:mt-48 ">
         <div className="flex justify-center items-center p-4">
           <img className="w-16 h-16" src="/images/logo.png" alt="" />
         </div>

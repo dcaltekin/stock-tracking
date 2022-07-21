@@ -1,21 +1,21 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useLoginStatus } from "../context/SiteContext";
-
 import HasNoUser from "../components/HasNoUser";
 import ListProduct from "../components/ListProduct";
-import InsertProduct from "../components/InsertProduct";
 
-function Profile() {
+function Products() {
   const { loginStatus } = useLoginStatus();
-  console.log(loginStatus);
+
   return (
     <div>
       {(!loginStatus && <HasNoUser />) || (
         <div>
           <Navbar />
-          <InsertProduct />
-          <ListProduct />
+          <div className="mt-48">
+            <ListProduct />
+          </div>
+
           <Footer />
         </div>
       )}
@@ -23,4 +23,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Products;

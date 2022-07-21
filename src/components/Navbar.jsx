@@ -1,14 +1,42 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Axios from "axios";
 import "../index.css";
 import { useLoginStatus } from "../context/SiteContext";
 
 function Navbar() {
-  const { loginStatus, setLoginStatus } = useLoginStatus();
+  const { loginStatus, setloginStatus } = useLoginStatus();
+
   const [icon, setIcon] = useState(true);
   const handleIcon = () => {
     setIcon(!icon);
   };
+
+  Axios.defaults.withCredentials = true;
+
+  // const deleteCookie = () => {
+  //   Axios.get("http://localhost:3001/delete-cookie").then((response) => {
+  //     console.log(response);
+  //   });
+  // };
+
+  // const deleteCookie = useEffect(() => {
+  //   Axios.get("http://localhost:3001/delete-cookie").then((response) => {
+  //     console.log(response);
+  //   });
+  // }, []);
+
+  //Cookie
+  useEffect(() => {
+    Axios.get("http://localhost:3001/login").then((response) => {
+      if (response.data.loggedIn === true) {
+        setloginStatus(response.data.user[0].username);
+      } else {
+        setloginStatus(false);
+      }
+      console.log(response);
+    });
+  }, []);
   return (
     <div>
       <div className="w-full bg-[#D3D3D3] h-24 fixed left-0 top-0 shadow-xl z-50">
@@ -20,28 +48,29 @@ function Navbar() {
                 : "flex items-center justify-center sm:flex sm:flex-col sm:bg-[#DFE8CC] sm:absolute sm:justify-start sm:items-center sm:-right-full sm:h-screen sm:w-full sm:top-24 sm:z-50 left-0"
             }
           >
-            <a href="#">
+            <Link to="/profile">
               <button className="p-2 hover:cursor-pointer sm:mt-8 sm:ml-0 ml-2">
                 Anasayfa
               </button>
-            </a>
-            <a href="#">
+            </Link>
+            <Link to="/products">
               <button className="p-2 hover:cursor-pointer sm:mt-8 sm:ml-0 ml-2">
                 Ürünler
               </button>
-            </a>
-            <a href="#">
+            </Link>
+            <Link to="/profile">
               <button className="p-2 hover:cursor-pointer sm:mt-8 sm:ml-0 ml-2">
                 Grafikler
               </button>
-            </a>
+            </Link>
           </div>
           <div className="">
             <div className="flex justify-center items-center">
               <p className="text-2xl ">{loginStatus}</p>
-              <a href="home">
+
+              <button>
                 <i className="fa fa-sign-out text-red-700 p-2"></i>
-              </a>
+              </button>
             </div>
           </div>
           <div
