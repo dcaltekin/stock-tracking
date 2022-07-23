@@ -16,6 +16,7 @@ function Login() {
   const { user, setUser } = useUser();
 
   Axios.defaults.withCredentials = true;
+  console.log(loginStatus);
 
   const login = () => {
     Axios.post("http://localhost:3001/login", {
@@ -32,13 +33,6 @@ function Login() {
       }
     });
   };
-
-  // useEffect(() => {
-  //   Axios.get("http://localhost:3001/login").then((response) => {
-  //     console.log(response);
-  //     setloginStatus(response.data.user[0].username);
-  //   });
-  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,7 +67,7 @@ function Login() {
                 />
               </div>
               <div className="">
-                {(loginStatus && (
+                {(user && (
                   <div>
                     <Navigate to="/profile" replace={true} />
                   </div>

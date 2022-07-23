@@ -11,7 +11,8 @@ function InsertProduct() {
   const { product_name, setProduct_name } = useProduct_name();
   const { stock, setStock } = useStock();
   const { setData } = useData();
-  const { loginStatus } = useLoginStatus();
+  const { loginStatus, setLoginStatus } = useLoginStatus();
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -26,6 +27,7 @@ function InsertProduct() {
         console.log(response);
         setProduct_name("");
         setStock("");
+
         setData((data) => [...data, { loginStatus, product_name, stock }]);
         toast.success(
           product_name + " isimli ürün " + stock + " adet eklendi."

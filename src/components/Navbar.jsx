@@ -1,11 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import "../index.css";
-import { useLoginStatus } from "../context/SiteContext";
+import {
+  useLoginStatus,
+  useUser,
+  useUsername,
+  usePassword,
+} from "../context/SiteContext";
 
 function Navbar() {
+  let navigate = useNavigate();
   const { loginStatus, setloginStatus } = useLoginStatus();
+  const { setUser } = useUser();
+  const { setUsername } = useUsername();
+  const { setPassword } = usePassword();
 
   const [icon, setIcon] = useState(true);
   const handleIcon = () => {
@@ -14,17 +23,18 @@ function Navbar() {
 
   Axios.defaults.withCredentials = true;
 
-  // const deleteCookie = () => {
-  //   Axios.get("http://localhost:3001/delete-cookie").then((response) => {
-  //     console.log(response);
-  //   });
-  // };
-
-  // const deleteCookie = useEffect(() => {
-  //   Axios.get("http://localhost:3001/delete-cookie").then((response) => {
-  //     console.log(response);
-  //   });
-  // }, []);
+  const deleteCookie = () => {
+    Axios.post("http://localhost:3001/delete-cookie").then((response) => {
+      console.log(response);
+      setUser(false);
+      setloginStatus(false);
+      setUsername("");
+      setPassword("");
+      navigate({
+        pathname: "/home",
+      });
+    });
+  };
 
   //Cookie
   useEffect(() => {
@@ -64,20 +74,21 @@ function Navbar() {
               </button>
             </Link>
           </div>
-          <div className="">
-            <div className="flex justify-center items-center">
-              <p className="text-2xl ">{loginStatus}</p>
 
-              <button>
-                <i className="fa fa-sign-out text-red-700 p-2"></i>
-              </button>
-            </div>
-          </div>
           <div
             className="sm:block md:hidden lg:hidden xl:hidden 2xl:hidden"
             onClick={handleIcon}
           >
             <i className={icon ? "fa-solid fa-bars" : "fa-solid fa-xmark"} />
+          </div>
+          <div className="">
+            <div className="flex justify-center items-center">
+              <p className="text-2xl ">{loginStatus}</p>
+
+              <button onClick={deleteCookie}>
+                <i className="fa fa-sign-out text-red-700 p-2"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
