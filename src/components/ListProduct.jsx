@@ -8,18 +8,16 @@ function ListProduct() {
 
   useEffect(() => {
     const productList = async () => {
-      await Axios.get("http://localhost:3001/product-list", {}).then(
-        (response) => {
-          console.log(response);
-          setData(response.data);
-        }
-      );
+      await Axios.get("/product-list", {}).then((response) => {
+        console.log(response);
+        setData(response.data);
+      });
     };
     productList();
   }, []);
 
   const deleteTask = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+    Axios.delete(`/delete/${id}`).then((response) => {
       const confirm = window.confirm("Emin misin?");
       if (confirm) {
         setData(

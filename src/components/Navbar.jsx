@@ -24,7 +24,7 @@ function Navbar() {
   Axios.defaults.withCredentials = true;
 
   const deleteCookie = () => {
-    Axios.post("http://localhost:3001/delete-cookie").then((response) => {
+    Axios.post("/delete-cookie").then((response) => {
       console.log(response);
       setUser(false);
       setloginStatus(false);
@@ -37,16 +37,16 @@ function Navbar() {
   };
 
   //Cookie
-  useEffect(() => {
-    Axios.get("http://localhost:3001/login").then((response) => {
-      if (response.data.loggedIn === true) {
-        setloginStatus(response.data.user[0].username);
-      } else {
-        setloginStatus(false);
-      }
-      console.log(response);
-    });
-  }, []);
+  // useEffect(() => {
+  //   Axios.get("/login").then((response) => {
+  //     if (response.data.loggedIn === true) {
+  //       setloginStatus(response.data.user[0].username);
+  //     } else {
+  //       setloginStatus(false);
+  //     }
+  //     console.log(response);
+  //   });
+  // }, []);
   return (
     <div>
       <div className="w-full bg-[#D3D3D3] h-24 fixed left-0 top-0 shadow-xl z-50">

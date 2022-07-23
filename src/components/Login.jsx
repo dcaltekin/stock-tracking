@@ -16,10 +16,9 @@ function Login() {
   const { user, setUser } = useUser();
 
   Axios.defaults.withCredentials = true;
-  console.log(loginStatus);
 
   const login = () => {
-    Axios.post("http://localhost:3001/login", {
+    Axios.post("/login", {
       username: username,
       password: password,
     }).then((response) => {

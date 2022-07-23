@@ -18,7 +18,7 @@ function InsertProduct() {
   };
 
   const product = () => {
-    Axios.post("http://localhost:3001/insertproduct", {
+    Axios.post("/insertproduct", {
       product_name: product_name,
       stock: stock,
       to_added_by: loginStatus,
