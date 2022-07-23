@@ -3,18 +3,12 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import "../index.css";
 import {
-  useLoginStatus,
-  useUser,
-  useUsername,
-  usePassword,
+  useSiteContext,
 } from "../context/SiteContext";
 
 function Navbar() {
   let navigate = useNavigate();
-  const { loginStatus, setloginStatus } = useLoginStatus();
-  const { setUser } = useUser();
-  const { setUsername } = useUsername();
-  const { setPassword } = usePassword();
+  const { username,setPassword,setUser,loginStatus, setloginStatus } = useSiteContext();
 
   const [icon, setIcon] = useState(true);
   const handleIcon = () => {
@@ -83,7 +77,7 @@ function Navbar() {
           </div>
           <div className="">
             <div className="flex justify-center items-center">
-              <p className="text-2xl ">{loginStatus}</p>
+              <p className="text-2xl ">{username}</p>
 
               <button onClick={deleteCookie}>
                 <i className="fa fa-sign-out text-red-700 p-2"></i>
