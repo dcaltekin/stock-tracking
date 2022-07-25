@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import Axios from "axios";
-import { useData, useProduct_name } from "../context/SiteContext";
+import { useSiteContext } from "../context/SiteContext";
 
 function ListProduct() {
-  const { data, setData } = useData();
-  const { product_name } = useProduct_name();
+  const { data, setData } = useSiteContext();
+  const { product_name } = useSiteContext();
 
   useEffect(() => {
     const productList = async () => {

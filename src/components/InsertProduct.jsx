@@ -1,17 +1,12 @@
 import Axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  useProduct_name,
-  useStock,
-  useData,
-  useLoginStatus,
-} from "../context/SiteContext";
+import { useSiteContext } from "../context/SiteContext";
 
 function InsertProduct() {
-  const { product_name, setProduct_name } = useProduct_name();
-  const { stock, setStock } = useStock();
-  const { setData } = useData();
-  const { loginStatus, setLoginStatus } = useLoginStatus();
+  const { product_name, setProduct_name } = useSiteContext();
+  const { stock, setStock } = useSiteContext();
+  const { setData } = useSiteContext();
+  const { user } = useSiteContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,14 +16,15 @@ function InsertProduct() {
     Axios.post("/insertproduct", {
       product_name: product_name,
       stock: stock,
-      to_added_by: loginStatus,
+      to_added_by: user.username,
     }).then((response) => {
       if (response) {
         console.log(response);
+        var username = user.username;
         setProduct_name("");
         setStock("");
 
-        setData((data) => [...data, { loginStatus, product_name, stock }]);
+        setData((data) => [...data, { username, product_name, stock }]);
         toast.success(
           product_name + " isimli ürün " + stock + " adet eklendi."
         );

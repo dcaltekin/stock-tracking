@@ -1,22 +1,21 @@
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
 import Axios from "axios";
-import { Navigate } from "react-router-dom";
-import {
-  useUsername,
-  usePassword,
-  useUser,
-  useLoginStatus,
-} from "../context/SiteContext";
+import { useSiteContext } from "../context/SiteContext";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
-  const { username, setUsername } = useUsername();
-  const { password, setPassword } = usePassword();
-  const { loginStatus, setloginStatus } = useLoginStatus();
-  const { user, setUser } = useUser();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { user, setUser } = useSiteContext();
+  console.log(user);
+  var navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = location.state?.path || "/profile";
 
   Axios.defaults.withCredentials = true;
-
   const login = () => {
     Axios.post("/login", {
       username: username,
@@ -26,9 +25,11 @@ function Login() {
       if (response.data.message) {
         toast.error("Kullancı adı veya şifre hatalı!");
       } else {
-        setloginStatus(response.data[0].username);
-        toast.success(response.data[0].username + " giriş yaptı.");
-        setUser(true);
+        setUser(response.data.user);
+
+        toast.success(response.data.user.username + " giriş yaptı.");
+
+        navigate(redirectPath, { replace: true });
       }
     });
   };
@@ -66,18 +67,13 @@ function Login() {
                 />
               </div>
               <div className="">
-                {(user && (
-                  <div>
-                    <Navigate to="/profile" replace={true} />
-                  </div>
-                )) || (
-                  <button
-                    onClick={login}
-                    className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900 w-full"
-                  >
-                    Giriş Yap
-                  </button>
-                )}
+                <button
+                  onClick={login}
+                  className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900 w-full"
+                >
+                  Giriş Yap
+                </button>
+
                 <Toaster></Toaster>
               </div>
             </div>

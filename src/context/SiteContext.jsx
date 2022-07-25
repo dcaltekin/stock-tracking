@@ -1,25 +1,29 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+import Axios from "axios";
+
 export const Context = createContext();
 
 function Provider({ children }) {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
-  
+
   //Kullanıcı Kontrolü
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginStatus, setloginStatus] = useState(null);
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
   //Ürünler
   const [product_name, setProduct_name] = useState("");
   const [stock, setStock] = useState("");
   const [data, setData] = useState([]);
 
-  useEffect(()=>{
-    setTimeout(() => {
-      setIsAuthLoading(false)
-    }, 3000);
-  },[])
+  useEffect(() => {
+    Axios.get("/login").then((response) => {
+      if (response.data.loggedIn === true) {
+        setUser(response.data.user);
+      } else {
+        setUser(null);
+      }
+      setIsAuthLoading(false);
+    });
+  }, []);
 
   if (isAuthLoading) {
     return <div>Loading...</div>;
@@ -27,6 +31,7 @@ function Provider({ children }) {
 
   const datatype = {
     user,
+    setUser,
     product_name,
     setProduct_name,
     stock,
